@@ -60,7 +60,7 @@ const Dashboard = () => {
                 <article className="card-body">
                   <h5 className="card-title">New Drivers</h5>
                   <div className="new-member-list">
-                    {driversArray?.map((d, index) => (
+                    {driversArray?.slice(-3).map((d, index) => (
                       <div
                         key={index}
                         className="d-flex align-items-center justify-content-between mb-4"
