@@ -19,6 +19,10 @@ const AddVehichle = () => {
 
   const { isLoading: loading, data } = useGetDriversQuery();
 
+  const { ids, entities } = data || {};
+
+  const driversArray = ids?.map((id) => entities[id]);
+
   const [addVehichle, { isLoading, isSuccess }] = useAddVehicleMutation();
 
   const handleAddVehicle = async (data) => {
@@ -119,7 +123,7 @@ const AddVehichle = () => {
                           {...register("driver")}
                         >
                           <option>Select Driver</option>
-                          {data?.map((d, index) => (
+                          {driversArray?.map((d, index) => (
                             <option key={index} value={d.id}>
                               {d.name}
                             </option>
