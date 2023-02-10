@@ -6,7 +6,9 @@ import TableLoader from "../components/TableLoader";
 
 const Mentainance = () => {
     const { isLoading, data } = useGetMentainanceQuery();
-    console.log(data);
+    const { ids, entities} = data || {}
+
+    const mentainanceData = ids?.map((id) => entities[id])
   return (
     <Layout>
       <div className="content-header">
@@ -50,7 +52,7 @@ const Mentainance = () => {
             <tbody>
               {isLoading
                 ? [...Array(5)].map((_, i) => <TableLoader key={i} count={5} />)
-                : data.map((d, index) => (
+                : mentainanceData.map((d, index) => (
                     <tr key={index}>
                       <td>{d.fleet.number_plate}</td>
                       <td>{d.description}</td>

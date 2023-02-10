@@ -12,6 +12,12 @@ import LetteredAvatar from "react-lettered-avatar";
 const Dashboard = () => {
   const { isLoading, data } = useGetVehichlesQuery();
   const { data: drivers } = useGetDriversQuery();
+
+  const { ids, entities } = data || {};
+  const {ids: driverIds, entities: driverEntities} = drivers || {}
+
+  const vehichlesArray = ids?.map((id) => entities[id]);
+  const driversArray = driverIds?.map((id) => driverEntities[id])
   return (
     <Layout>
       <div className="content-header">
@@ -54,7 +60,7 @@ const Dashboard = () => {
                 <article className="card-body">
                   <h5 className="card-title">New Drivers</h5>
                   <div className="new-member-list">
-                    {drivers?.map((d, index) => (
+                    {driversArray?.map((d, index) => (
                       <div
                         key={index}
                         className="d-flex align-items-center justify-content-between mb-4"
@@ -150,7 +156,7 @@ const Dashboard = () => {
                     ? [...Array(5)].map((_, i) => (
                         <TableLoader key={i} count={6} />
                       ))
-                    : data?.map((v, index) => (
+                    : vehichlesArray?.map((v, index) => (
                         <tr key={index}>
                           <td>{v.number_plate}</td>
                           <td>{v.driver.name}</td>

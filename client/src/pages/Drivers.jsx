@@ -7,6 +7,10 @@ import TableLoader from "../components/TableLoader";
 const Drivers = () => {
   const { isLoading, data } = useGetDriversQuery();
 
+  const { ids, entities } = data || {}
+
+  const driversArray = ids?.map((id) => entities[id])
+
   return (
     <Layout>
       <div className="content-header">
@@ -50,7 +54,7 @@ const Drivers = () => {
             <tbody>
               {isLoading
                 ? [...Array(5)].map((_, i) => <TableLoader key={i} count={5} />)
-                : data.map((d, index) => (
+                : driversArray.map((d, index) => (
                     <tr key={index}>
                       <td>{d.name}</td>
                       <td>{d.phone_number}</td>

@@ -7,6 +7,10 @@ import TableLoader from "../components/TableLoader";
 const Vehichles = () => {
   const { isLoading, data } = useGetVehichlesQuery();
 
+  const { ids, entities } = data || {};
+
+  const vehichlesArray = ids?.map((id) => entities[id]);
+
   return (
     <Layout>
       <div className="content-header">
@@ -51,7 +55,7 @@ const Vehichles = () => {
             <tbody>
               {isLoading
                 ? [...Array(5)].map((_, i) => <TableLoader key={i} count={6} />)
-                : data?.map((v, index) => (
+                : vehichlesArray?.map((v, index) => (
                     <tr key={index}>
                       <td>{v.number_plate}</td>
                       <td>{v.driver.name}</td>
