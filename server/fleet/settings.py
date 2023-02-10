@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-^&1kjv7^#c-ktan@y*0va)&ge15@f(py!55nfbc4$0&smza2*x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1:5173', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1:5173', 'localhost', 'fleet-nns8.onrender.com']
 
 
 AUTH_USER_MODEL = 'api.User'
