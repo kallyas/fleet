@@ -4,9 +4,12 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework import permissions
 from django.db.models import Q
+from django.contrib import messages
 from .models import User, Driver, Vehichle, Maintenance
 from .serializers import UserSerializer, DriverSerializer, VehichleSerializer, MaintenanceSerializer
 
+import io
+import csv
 
 # NOTE: used post method to create new objects because of foreign key constraints issues
 
@@ -189,3 +192,41 @@ class SearchDriver(generics.ListAPIView):
         if search_term is not None:
             query = Q(name__icontains=search_term) | Q(phone_number__icontains=search_term)
             queryset = queryset.filter(query)
+
+
+# Write a view to allow a user import a csv file of vehicles and create them in the database
+class ImportVehichle(generics.CreateAPIView):
+    queryset = Vehichle.objects.all()
+    serializer_class = VehichleSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    
+    def post(self, request, *args, **kwargs):
+        file = request.FILES.get('file')
+        
+        # Check if the file is a CSV
+        if not file.name.endswith('.csv'):
+            return Response({'message': 'The file must be a CSV'}, status=400)
+
+        data_set = file.read().decode('UTF-8')
+        io_string = io.StringIO(data_set)
+        header = next(csv.reader(io_string))
+        for row in csv.reader(io_string, delimiter=',', quotechar="|"):
+            # Check if all the required columns are present in the header
+            required_columns = ['number_plate', 'driver', 'mileage', 'manufacturer', 'date_of_purchase']
+            if not all([col in header for col in required_columns]):
+                return Response({'message': 'The file must contain the columns: ' + ', '.join(required_columns)}, status=400)
+
+            # Map the row data to the required columns
+            data = {header[i]: row[i] for i in range(len(header))}
+            driver = Driver.objects.get(id=data['driver'])
+            vehicle, created = Vehichle.objects.update_or_create(
+                number_plate=data['number_plate'],
+                defaults={
+                    'driver': driver,
+                    'mileage': data['mileage'],
+                    'manufacturer': data['manufacturer'],
+                    'date_of_purchase': data['date_of_purchase'],
+                }
+            )
+
+        return Response({'message': 'Vehicles created successfully'})

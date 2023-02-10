@@ -16,7 +16,8 @@ from .views import (
     SearchDriver,
     SearchVehichle,
     SearchMaintenance,
-    StaffCreateView
+    StaffCreateView,
+    ImportVehichle,
 )
 
 urlpatterns = [
@@ -35,4 +36,5 @@ urlpatterns = [
     path('search/driver/', SearchDriver.as_view(), name='search-driver'),
     path('search/vehichle/', SearchVehichle.as_view(), name='search-vehichle'),
     path('search/maintenance/', SearchMaintenance.as_view(), name='search-maintenance'),
+    path('import/vehichle/', ImportVehichle.as_view(), name='import-vehichle'),
 ]
