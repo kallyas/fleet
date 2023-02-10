@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { useGetDriversQuery } from "../features/driver/driverApiSlice";
 import { cardsData } from "../data/data";
 import Charts from "../components/Charts";
+import LetteredAvatar from "react-lettered-avatar";
 
 const Dashboard = () => {
   const { isLoading, data } = useGetVehichlesQuery();
@@ -59,14 +60,16 @@ const Dashboard = () => {
                         className="d-flex align-items-center justify-content-between mb-4"
                       >
                         <div className="d-flex align-items-center">
-                          <img
-                            src="assets/imgs/people/avatar4.jpg"
-                            alt=""
-                            className="avatar"
+                          <LetteredAvatar
+                            name={d.name}
+                            size={50}
+                            className="me-3"
                           />
                           <div>
-                            <h6>Patric Adams</h6>
-                            <p className="text-muted font-xs">Sanfrancisco</p>
+                            <h6>{d.name}</h6>
+                            <p className="text-muted font-xs">
+                              {new Date(d.date_hired).toLocaleDateString()}
+                            </p>
                           </div>
                         </div>
                       </div>
