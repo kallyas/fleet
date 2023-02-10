@@ -17,6 +17,10 @@ const AddMentainance = () => {
 
   const { isLoading: loading, data } = useGetVehichlesQuery();
 
+  const { ids, entities } = data || {};
+
+  const vehichlesArray = ids?.map((id) => entities[id]);
+
   const handleAddMentainance = async (data) => {
     setAppError(null);
     try {
@@ -97,7 +101,7 @@ const AddMentainance = () => {
                           {...register("fleet")}
                         >
                           <option>Select Vehicle</option>
-                          {data?.map((d, index) => (
+                          {vehichlesArray?.map((d, index) => (
                             <option key={index} value={d.id}>
                               {d.number_plate}
                             </option>
