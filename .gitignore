@@ -2,3 +2,6 @@ venv/
 node_modules/
 test.py
 .env
+*.csv
+__pycache__/
+*.pyc

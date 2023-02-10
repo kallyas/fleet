@@ -45,6 +45,14 @@ export const vehicleApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Vehichles"],
     }),
+    importVehichles: builder.mutation({
+      query: (body) => ({
+        url: "/import/vehichle/",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: [{ type: "Vehichles", id: "LIST" }],
+    }),
   }),
 });
 
@@ -52,4 +60,5 @@ export const {
   useAddVehicleMutation,
   useGetVehichlesQuery,
   useSearchVehichlesQuery,
+  useImportVehichlesMutation,
 } = vehicleApiSlice;

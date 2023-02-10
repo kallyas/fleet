@@ -71,7 +71,17 @@ function App() {
 
   return (
     <>
-      <Toaster position="top-right" reverseOrder={false} />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            fontSize: "14px",
+            width: "200px",
+            height: "50px",
+          },
+        }}
+        reverseOrder={false}
+      />
 
       <RouterProvider router={routes} />
     </>
