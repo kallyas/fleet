@@ -20,13 +20,13 @@ const AddMentainance = () => {
   const handleAddMentainance = async (data) => {
     setAppError(null);
     try {
-      await addMentainance({
+      const res = await addMentainance({
         description: data.description,
         date: data.date,
         cost: data.cost,
         vehichle: data.fleet,
       }).unwrap();
-      if (isSuccess) {
+      if (res.maintenance) {
         navigate("/dashboard/mentainance");
       }
     } catch (err) {

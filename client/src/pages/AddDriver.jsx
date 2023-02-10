@@ -24,13 +24,13 @@ const AddDriver = () => {
   const handleAddDriver = async (data) => {
     setAppError(null);
     try {
-      await addDriver({
+      const res = await addDriver({
         name: data.first_name + " " + data.last_name,
         phone_number: data.phone_number,
         age: data.age,
         date_hired: data.date_hired,
       }).unwrap();
-      if (isSuccess) {
+      if (res.driver) {
         navigate("/dashboard/drivers");
       }
     } catch (err) {

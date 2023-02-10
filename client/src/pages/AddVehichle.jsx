@@ -24,14 +24,14 @@ const AddVehichle = () => {
   const handleAddVehicle = async (data) => {
     setAppError(null);
     try {
-      await addVehichle({
+      const res = await addVehichle({
         driver: Number(data.driver),
         number_plate: data.number_plate,
         manufacturer: data.manufacturer,
         mileage: Number(data.mileage),
         date_of_purchase: data.date_of_purchase,
       }).unwrap();
-      if (isSuccess) {
+      if (res.vehichle) {
         navigate("/dashboard/vehichles");
       }
     } catch (err) {

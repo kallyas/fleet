@@ -1,4 +1,9 @@
+import { createEntityAdapter, createSelector } from "@reduxjs/toolkit";
 import { apiSlice } from "../../api/apiSlice";
+
+const driverAdapter = createEntityAdapter();
+
+const initialState = driverAdapter.getInitialState({});
 
 export const driverApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -8,12 +13,32 @@ export const driverApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: ["Drivers"]
+      invalidatesTags: [{ type: "Drivers", id: "LIST" }],
     }),
     getDrivers: builder.query({
       query: () => ({
         url: "/drivers/",
       }),
+      providesTags: ["Drivers"],
+      validateStatus: (response, result) => {
+        return response.status === 200 && !result.isError;
+      },
+      transformResponse: (response) => {
+        return driverAdapter.setAll(initialState, response);
+      },
+      providesTags: (error, result, args) => {
+        if (result?.ids) {
+          return result[
+            {
+              type: "Drivers",
+              id: "LIST",
+              ...result.ids.map((id) => ({ type: "Drivers", id })),
+            }
+          ];
+        } else {
+          return [{ type: "Drivers", id: "LIST" }];
+        }
+      },
     }),
   }),
 });
