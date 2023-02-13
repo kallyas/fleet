@@ -14,7 +14,7 @@ const vehichleSchema = yup.object().shape({
       "Invalid car number plate format. Example: UAB 456T"
     ),
   driver: yup.string().required("Driver is required"),
-  mileage: yup.string().required("Mileage is required"),
+  mileage: yup.number().required("Mileage is required").min(1, "Mileage must be greater than 0"),
   manufacturer: yup.string().required("Manufacturer is required"),
   date_of_purchase: yup.string().required("Date of purchase is required"),
 });
@@ -30,13 +30,13 @@ const driverSchema = yup.object().shape({
       "Invalid phone number format. Example: 0752541359"
     ),
   date_hired: yup.string().required("Date Hired is required"),
-  age: yup.string().required("Age is required"),
+  age: yup.number().required("Age is required").min(18, "Age must be greater than 18"),
 });
 
 const mentainanceSchema = yup.object().shape({
   date: yup.string().required("Date is required"),
   description: yup.string().required("Description is required"),
-  cost: yup.string().required("Cost is required"),
+  cost: yup.number().required("Cost is required").min(1, "Cost must be greater than 0"),
   fleet: yup.string().required("Vehicle is required"),
 });
 
